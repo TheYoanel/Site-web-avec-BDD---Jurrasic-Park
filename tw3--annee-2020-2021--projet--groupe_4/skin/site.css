@@ -1,0 +1,136 @@
+*{
+	margin : 0;
+	padding: 1px;	
+	font-family: Latin Modern Mono, sans-serif; 
+}
+
+html{
+	background-image:url("img/bgJurassic.jpg");
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+#titleDino{
+	text-align: center;
+	background: coral;
+	padding: 10px 0;
+  	text-transform: uppercase;
+}
+
+.NavigationBar{
+	height: 50px;
+	background-color: #001E33;
+	padding: 0 10px;
+	color: #FFFFFF;
+	overflow: hidden;
+}
+
+#logo{
+	float: left;
+	width: 50px;
+	height: 50px;
+}
+
+.logoPage{
+	float:left;
+	line-height: 50px;
+	text-transform: uppercase;
+}
+
+.menu{
+	float: right;
+	line-height: 50px;
+}
+
+.menu a{
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 20px;
+}
+
+.menu a:hover{
+	transition: 0.8s;
+	color: goldenrod;
+	background-color: black;
+}
+
+.insidePage{
+	transition: 0.8s;
+	background-color: #6c1c1c;
+}
+
+
+body{
+	width: 970px;
+	margin: 10px auto;
+	text-align: left;
+	border: 2px solid black;
+	background: #fff;
+}
+
+footer {
+	display: table-row;
+	box-sizing: border-box;
+
+}
+
+@media(max-width:980px){
+  body{
+    width: auto;
+  }
+}
+
+@media(max-width:750px){
+
+
+  div{
+      display:grid;
+      grid-template-rows : 1fr 1fr;
+      
+  }
+  div ul{
+    grid-row: 1
+  }
+}
+
+
+@media(max-width:512px){
+	.menu a{
+		padding: 20px 0;
+	}
+}
+
+@media (max-width:880px){
+		table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	thead tr{
+		display: none;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+		td { 
+			position: relative;
+		border-bottom: 1px solid #eee; 
+		padding-left: 50%; 
+	}
+	
+		td:before { 
+		position: absolute;
+		left: 8px;
+	}
+	
+	td:nth-of-type(1):before { content: "Nom"; }
+	td:nth-of-type(2):before { content: "Nom Latin"; }
+	td:nth-of-type(3):before { content: "Règne"; }
+	td:nth-of-type(4):before { content: "Taille"; }
+	td:nth-of-type(5):before { content: "Longueur"; }
+	td:nth-of-type(6):before { content: "Vitesse"; }
+	td:nth-of-type(7):before { content: "Description"; }
+	td:nth-of-type(8):before { content: "Danger"; }
+	td:nth-of-type(9):before { content: "Régime"; }
+}
