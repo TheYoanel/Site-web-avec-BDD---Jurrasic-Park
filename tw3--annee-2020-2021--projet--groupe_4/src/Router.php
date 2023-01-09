@@ -1,7 +1,7 @@
 <?php
 
 require_once('view/View.php');
-require_once("controller/Controller.php");
+require_once("controller/controller.php");
 require_once("model/Authentification.php");
 require_once("model/Database.php");
 
@@ -17,9 +17,13 @@ class Router{
 
 	private $view;
 	private $controller;
+
+	function getDinosaurURL($id){
+		return "index.php?dinosaure=".$id;
+	}
 	
 	function main($db){
-		$this->view = new View();
+		$this->view = new View($this);
         $this->controller = new Controller($this->view, $db);
 
 
@@ -28,8 +32,13 @@ class Router{
 		$personnage1 = new Authentification();
 		
 
-		if(isset($_POST['login']) && isset($_POST['mdp'])){
-			$personnage1->connectUser($_POST['login'],$_POST['mdp']);
+		if(isset($_POST['login']) && isset($_POST['mdp']) && (!empty($_POST['login'])) && (!empty($_POST['mdp']))){
+
+			$login = $_POST['login'];
+			$mdp = $_POST['mdp'];
+			
+			$personnage1->connectUser($login,$mdp);
+			
 		}
 
 
@@ -42,11 +51,22 @@ class Router{
 		// a faire plus propre
 		if(isset($_POST['login_inscription']) && isset($_POST['mdp_inscription']) && isset($_POST['email_inscription']) && (!empty($_POST['email_inscription'])) && (!empty($_POST['login_inscription'])) &&(!empty($_POST['mdp_inscription']))){
 
-			if($personnage1->nameUserAlreadyUsed($_POST['login_inscription']) == false){
+
+			//Changer cette technique, il ne faut a priori pas échapper à l'entrée
+			$login_inscription = htmlspecialchars($_POST['login_inscription']);
+			
+			$mdp_inscription = htmlspecialchars($_POST['mdp_inscription']);
+			$email_inscription = $_POST['email_inscription']; 
+
+			
+			
+
+			if($personnage1->nameUserAlreadyUsed($login_inscription) == false){
 
 				//modif a faire ici
-				$personnage1->createAccount($_POST['login_inscription'],$_POST['mdp_inscription'], "",$_POST['email_inscription']);
-				$personnage1->connectUser($_POST['login_inscription'],$_POST['mdp_inscription']);
+				$personnage1->createAccount($login_inscription,$mdp_inscription,$email_inscription);
+				$personnage1->connectUser($login_inscription,$mdp_inscription);
+				
 
 			}
 			else{
@@ -54,6 +74,12 @@ class Router{
 			}
 			
 
+		}
+
+		// peut etre ici changer avec la variable de session
+		if(isset($_POST['old_password'])&& isset($_POST['new_password'])){
+			$personnage1->changePassword($_SESSION['user']['login'],$_POST['old_password'],$_POST['new_password']);
+			
 		}
 			
 
@@ -69,32 +95,43 @@ class Router{
 			
 		}
 
+		elseif (isset($_GET['dinosaure'])){
+			$this->controller->showDinosaur($_GET['dinosaure']);
+		}
 
-// SERT A AFFICHER LA PAGE DE CONNEXION OU DECONNEXION EN FONCTION DE SI L UTILISATEUR EST CONNECTEE OU NON
+
+// SERT A AFFICHER LA PAGE DE CONNEXION OU SON ESPACE MEMBRE EN FONCTION DE SI L UTILISATEUR EST CONNECTEE OU NON
 
 		elseif(isset($_GET['Connexion'])){
 
 			if(empty($_SESSION['user'])){
-				$this->view->makePageDeConnexion();
+				$this->controller->showConnexion();
 			}
 	
 			if(!empty($_SESSION['user'])){
-				$this->view->makePageDeDeconnexion();
+				$this->controller->showEspaceMembre();
+				
 			}
 
 		}
 
-// SERT A AFFICHER LA PAGE DECONNEXION DIRECTEMENT QUAND ON VIENT DE S'INSCRIRE
+// SERT A AFFICHER LA PAGE de l'espace membre DIRECTEMENT QUAND ON VIENT DE S'INSCRIRE
 
 		elseif(isset($_GET['Inscription'])){
 			
 			if(empty($_SESSION['user'])){
-				$this->view->makePageInscription();
+				$this->controller->showInscription();
 			}
 	
 			if(!empty($_SESSION['user'])){
-				$this->view->makePageDeDeconnexion();
+				$this->controller->showEspaceMembre();
 			}
+		}
+
+		elseif(isset($_GET['EspaceMembre']) && (!empty($_SESSION))){
+
+			$this->controller->showEspaceMembre();
+			
 		}
 
 // SERT A AFFICHER LA PAGE ACCUEIL SI RIEN N'EST VALIDE 

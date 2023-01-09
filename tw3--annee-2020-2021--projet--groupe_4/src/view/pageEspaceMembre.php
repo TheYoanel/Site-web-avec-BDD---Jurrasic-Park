@@ -4,6 +4,10 @@
 
 <?php
 
+if(!isset($_SESSION)){
+    session_start();
+}
+
 require_once('View.php');
 
 
@@ -18,7 +22,6 @@ require_once('View.php');
 	<link rel="stylesheet" href="skin/site.css" />
 	<meta charset="UTF-8" />
 </head>
-
 <body>
 
 <header>
@@ -35,28 +38,33 @@ require_once('View.php');
         </header>
 
 
+    <h1>Espace Membre</h1>
+    <h2> <?php echo "Bonjour " . $_SESSION['user']['login']; ?></h2>
 
+    <h3>Editer votre profil</h3>
+	<p>Changez votre mot de passe : </p>
+	
+    <form action="" method="POST">
 
-	<form class="box" action="" method="POST">
-        <h2> Inscription </h2>
     <div>
 
-    <label>Login : <input type="text" name="login_inscription" id="login_inscription"></label>
-    </div>
-    <div>
-
-    <label> Password <input type="password" name="mdp_inscription" id="mdp_inscription"></label>
+    <label> Mot de passe actuel <input type="password" name="old_password" id="old_password"></label>
     </div>
 
 	<div>
 
-    <label> Email <input type="email" name="email_inscription" id="email_inscription"></label>
-    
+    <label> Nouveau mot de passe <input type="password" name="new_password" id="new_password"></label>
     </div>
 	
-    <button type="submit"> S'inscrire </button>
+    <button type="submit"> Changer le mot de passe </button>
+	</form>
+	
 
-    <a href='index.php?Connexion'> Déjà un compte ? Cliquez ici</a>
+	<form action="" method="post">
+	<div>
+		<label><button type="submit" name="deco">Se déconnecter</button></label>
+	</div>
+	
 
 	</form>
 	

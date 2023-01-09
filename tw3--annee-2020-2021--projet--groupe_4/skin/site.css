@@ -4,19 +4,39 @@
 	font-family: Latin Modern Mono, sans-serif; 
 }
 
+/* Fonts */
+
+@font-face {
+    font-family: 'Jurassic';
+    src: url("font/JurassicPark-BL48.ttf") format("truetype");
+}
+
 html{
-	background-image:url("img/bgJurassic.jpg");
+	background-image:url("../images/bgJurassic.jpg");	
 	background-size: cover;
 	background-attachment: fixed;
 	background-position: center center;
 	background-repeat: no-repeat;
 }
 
-#titleDino{
+
+#titleDino, #titleSite, #titleRubr{
 	text-align: center;
 	background: coral;
 	padding: 10px 0;
   	text-transform: uppercase;
+}
+
+.rubriques h3{
+	font-style: italic;
+}
+
+.rubriques{
+	background:skyblue;
+	text-align: center;
+	font-size:1.2em;
+	border-bottom: thick double black;
+	border-top: thick double black;
 }
 
 .NavigationBar{
@@ -34,9 +54,12 @@ html{
 }
 
 .logoPage{
+	font-family: 'Jurassic';
 	float:left;
 	line-height: 50px;
-	text-transform: uppercase;
+	font-size: 60px;
+	font-weight: inherit;
+	color: crimson;
 }
 
 .menu{
@@ -44,13 +67,18 @@ html{
 	line-height: 50px;
 }
 
-.menu a{
+.menu li{ 
+	float: left;
+	list-style-type:none;
+}
+
+.menu li a{
 	color: #FFFFFF;
 	text-decoration: none;
 	padding: 20px;
 }
 
-.menu a:hover{
+.menu li a:hover{
 	transition: 0.8s;
 	color: goldenrod;
 	background-color: black;
@@ -67,13 +95,38 @@ body{
 	margin: 10px auto;
 	text-align: left;
 	border: 2px solid black;
-	background: #fff;
+	background-color: white;
 }
 
 footer {
-	display: table-row;
-	box-sizing: border-box;
+	text-align: center;
+	display : table-row;
+	height: 30px;
+	line-height: 30px;
+	background-color: #001E33;
+	color: white;
+	border: 2px solid transparent;
+	border-radius: 2px;
+}
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th{
+  background-color: cadetblue;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
 
 @media(max-width:980px){
@@ -97,8 +150,8 @@ footer {
 
 
 @media(max-width:512px){
-	.menu a{
-		padding: 20px 0;
+	.menu li a{
+		padding: 20px 5px;
 	}
 }
 
@@ -133,4 +186,91 @@ footer {
 	td:nth-of-type(7):before { content: "Description"; }
 	td:nth-of-type(8):before { content: "Danger"; }
 	td:nth-of-type(9):before { content: "Régime"; }
+}
+
+html, body {
+	height: 100%;
+	margin: 0; padding: 0;
+}
+body {
+	display : table;
+	max-width: 960px;
+	margin: auto;
+}
+
+.box{
+	width: 300px;
+	padding: 10px;
+	background: #001E33;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	color: #FFFFFF;
+}
+
+.box input[type = "text"],.box input[type = "password"]{
+	border:0;
+	background: none;
+	display: block;
+	margin: auto;
+	text-align: center;
+	border: 2px solid #fff;
+	padding: 14px 10px;
+	width: 200px;
+	outline: none;
+	color: white;
+	border-radius: 24px;
+	transition: 0.5s;
+}
+.box input[type = "text"]:focus,.box input[type = "password"]:focus{
+	width: 280px;
+	border-color: #6c1c1c;
+}
+
+.box button {
+	background-color: crimson;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	font-family:'Jurassic';
+}
+.box button:hover{
+	color: crimson ;
+	background: #FFFFFF;
+	border-color: crimson ;
+	transition: all 0.4s ease 0s;
+}
+.box input[type = "email_inscription"],.box input[type = "email"]{
+	border:0;
+	background: none;
+	display: block;
+	margin: auto;
+	text-align: center;
+	border: 2px solid #fff;
+	padding: 14px 10px;
+	width: 200px;
+	outline: none;
+	color: white;
+	border-radius: 24px;
+	transition: 0.5s;
+}
+.box input[type = "email_inscription"]:focus,.box input[type = "email"]:focus{
+	width: 280px;
+	border-color: #6c1c1c;
+}
+
+.box h2{
+	font-family:'Jurassic';
+	font-size: 400%;
+	color: crimson;
+}
+.box a{
+	display: block;
+	color: #F0C300;
 }

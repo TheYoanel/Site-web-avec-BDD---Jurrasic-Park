@@ -22,9 +22,9 @@
 
 
 
-	<h2> Page de deconnexion </h2>
 
-	<form action="" method="post">
+	<form class="box" action="" method="post">
+	<h2> Page de deconnexion </h2>
     <label>Deconnexion <button type="submit" name="deco">Se deconnecter</button></label>
     
     </form>

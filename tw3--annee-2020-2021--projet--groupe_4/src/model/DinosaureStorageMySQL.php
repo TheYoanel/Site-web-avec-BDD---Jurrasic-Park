@@ -11,17 +11,20 @@ class DinosaureStorageMySQL implements DinosaureStorage{
     }
 
 
-
     function create(Dinosaure $a){
         return null;
     }
 
     
 	public function read($id) {
-		if (array_key_exists($id, $this->db)) {
-			return $this->db[$id];
-		}
-		return null;
+        $stmt = $this->db->prepare("SELECT * FROM dinosaures WHERE id = ?");
+        if ($stmt->execute(array($id))) {
+            $row = $stmt->fetch();
+            return $row;
+        }
+        else{
+            return false;
+        }
 	}
 
     public function readAll()

@@ -32,19 +32,28 @@ class Authentification{
 
     public function connectUser($login, $password){
 
-        $reponse = $this->bdd->prepare("SELECT * FROM utilisateurs WHERE id =:id AND mdp=:mdp");
+        $reponse = $this->bdd->prepare("SELECT * FROM utilisateurs WHERE login =:login");
         $reponse->execute(array(
-            'id' => $login,
-            'mdp' => $password
+            'login' => $login,
         )); 
 
         $connexion = $reponse->fetch();
-        if ($connexion) {
-            $_SESSION['user'] = $connexion;
+        
+        if(!empty($connexion)){
 
-            $reponse->closeCursor();
-            return true;
-        } 
+            $password_hash = $this->verifyHashagePassword($password,$connexion['password']);
+
+
+            if($password_hash){
+                
+                $_SESSION['user'] = $connexion;
+                $reponse->closeCursor();
+                return true;
+
+        }
+
+        }
+        
         
         $reponse->closeCursor();
         return false;
@@ -98,21 +107,10 @@ class Authentification{
     }
 
 
-    public function nameUserAlreadyUsed($id){
+    public function nameUserAlreadyUsed($login){
 
-        // $reponse = $this->bdd->prepare('SELECT id FROM utilisateurs ');
-    
-        // while ($donnees = $reponse->fetch())
-        // {
-        //     if($donnees['id'] == $id){    
-        //         return true;
-        //     }
-        // }
-        // $reponse->closeCursor();
-        // return false;
-
-        $reponse = $this->bdd->prepare("SELECT * FROM utilisateurs WHERE id=?");
-        $reponse->execute([$id]); 
+        $reponse = $this->bdd->prepare("SELECT * FROM utilisateurs WHERE login=?");
+        $reponse->execute([$login]); 
         $user = $reponse->fetch();
         if ($user) {
             return true;
@@ -122,16 +120,21 @@ class Authentification{
         $reponse->closeCursor();
 
     }
+    
 
-    public function createAccount($id,$mdp,$pseudo="",$email=""){
+    public function createAccount($login,$password,$email=""){
 
-        $req = $this->bdd->prepare('INSERT INTO utilisateurs(id, mdp, pseudo, email) VALUES(:id, :mdp, :pseudo, :email)');
+        $mdp_hash = $this->hashagePassword($password);
+       
+
+        $req = $this->bdd->prepare('INSERT INTO utilisateurs(login, password, email) VALUES(:login, :password, :email)');
         $req->execute(array(
-        'id' => $id,
-        'mdp' => $mdp,
-        'pseudo' => $pseudo,
-        "email" => $email
+        'login' => $login,
+        'password' => $mdp_hash,
+        'email' => $email
         ));
+
+    
 
     }
 
@@ -140,6 +143,61 @@ class Authentification{
     }
 
     public function deleteAccount($id,$mdp){
+
+    }
+
+    public function changePassword($login,$old_password,$new_password){
+
+        $reponse = $this->bdd->prepare("SELECT * FROM utilisateurs WHERE login =:login");
+        $reponse->execute(array(
+            'login' => $login,
+        )); 
+
+        $connexion = $reponse->fetch();
+        if(!empty($connexion)){
+
+            $password_hash = $this->verifyHashagePassword($old_password,$connexion['password']);
+            if($password_hash){
+
+                $new_password = $this->hashagePassword($new_password);
+
+                $req = $this->bdd->prepare('UPDATE utilisateurs SET password = :password WHERE login = :login');
+                $req->execute(array(
+                'login' => $login,    
+                'password' => $new_password,
+                
+                ));
+                
+                $reponse->closeCursor();
+
+        }
+
+    }
+}
+
+    public function changePseudo(){
+
+    }
+
+    public function changeMailAdresse(){
+        
+    }
+
+    public function hashagePassword($password){
+
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+
+        return $hash;
+
+    }
+
+    public function verifyHashagePassword($password,$mdp){
+
+        if (password_verify($password, $mdp)) {
+            return true;
+    } else {
+            return false;
+    }
 
     }
 

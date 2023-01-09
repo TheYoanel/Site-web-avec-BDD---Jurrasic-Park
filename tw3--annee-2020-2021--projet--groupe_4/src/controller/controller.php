@@ -22,4 +22,21 @@ class Controller{
         $this->view->makeListPage($this->db->readAll());
     }
 
+    public function showDinosaur($id){
+        $this->view->makeDinosaurPage($this->db->read($id));
+    }
+
+    public function showInscription(){
+        $this->view->makePageInscription();
+    }
+
+    public function showConnexion(){
+        $this->view->makePageDeConnexion();
+    }
+
+    public function showEspaceMembre(){
+        $this->view->makePageEspaceMembre(); 
+    }
+
+
 }
